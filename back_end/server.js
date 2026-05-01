@@ -1,9 +1,7 @@
-console.log("API KEY:", process.env.GEMINI_API_KEY);
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
-
 const { GoogleGenAI } = require("@google/genai");
 
 const app = express();
@@ -13,36 +11,48 @@ app.use(express.json());
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
+console.log("API KEY carregada:", !!GEMINI_API_KEY);
+
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+
+
+// 🎯 Classificação
+function classificar(mensagem) {
+    mensagem = mensagem.toLowerCase();
+
+    if (mensagem.includes("pode comer")) return "alimentacao";
+    if (mensagem.includes("vomitou") || mensagem.includes("doente")) return "saude";
+    if (mensagem.includes("triste") || mensagem.includes("comportamento")) return "comportamento";
+
+    return "geral";
+}
 
 
 // 🔥 Prompt inteligente
 function montarPrompt(mensagem) {
+    const tipo = classificar(mensagem);
+
     return `
-Você é um assistente especializado em cuidados com pets, com conhecimento semelhante a um auxiliar veterinário.
+Você é um assistente especializado em cuidados com pets, que te ajuda com perguntas sobre alimentação, saúde e comportamento de animais de estimação. você é direto, claro e sempre alerta sobre situações de saúde. Se a pergunta indicar emergência, responda com um alerta ⚠️ e recomende procurar um veterinário.
 
-Seu objetivo é ajudar de forma prática, clara e confiável.
+Tipo da pergunta: ${tipo}
 
-REGRAS IMPORTANTES:
-- Não dê respostas genéricas
-- Seja direto e útil
-- Explique o porquê das coisas
-- Se for saúde, diga possíveis causas
-- Se parecer grave, alerte com ⚠️
-- Sempre sugira procurar veterinário em casos de risco
-- Use linguagem simples
+REGRAS:
+- Não seja genérico
 - Máximo de 5 linhas
-- Seja objetivo
-
-TIPOS DE PERGUNTA:
-- Alimentação → diga o que pode e o que evitar
-- Sintomas → possíveis causas + orientação
-- Comportamento → explique o motivo
+- Seja direto
+- Use linguagem simples
+- Se for saúde, alerte com ⚠️
 
 FORMATO:
 - Resposta direta
 - Explicação curta
-- Dica prática no final
+- Dica prática
+- Para separar a resposta da explicação, pule a linha
+
+OBSERVAÇÃO:
+- Não escreva "** Resposta** ou **Explicação**", apenas entregue a resposta e a explicação de forma fluida.
+
 
 
 Pergunta:
@@ -51,7 +61,7 @@ ${mensagem}
 }
 
 
-// 🚨 Filtro de emergência
+// 🚨 Emergência
 function filtroEmergencia(mensagem) {
     mensagem = mensagem.toLowerCase();
 
@@ -67,7 +77,7 @@ function filtroEmergencia(mensagem) {
 }
 
 
-// 🤖 IA GEMINI (SDK)
+// 🤖 Gemini
 async function chamarGemini(mensagem) {
     try {
         const response = await ai.models.generateContent({
@@ -77,7 +87,7 @@ async function chamarGemini(mensagem) {
 
         if (!response || !response.text) {
             console.log("Resposta vazia:", response);
-            return "⚠️ Não consegui gerar resposta agora.";
+            return "⚠️ Não consegui gerar resposta.";
         }
 
         return response.text;
@@ -89,7 +99,7 @@ async function chamarGemini(mensagem) {
 }
 
 
-// 🚀 ROTA PRINCIPAL
+// 🚀 Rota principal
 app.post("/chat", async (req, res) => {
     const { mensagem } = req.body;
 
@@ -97,26 +107,24 @@ app.post("/chat", async (req, res) => {
         return res.status(400).json({ resposta: "Mensagem inválida." });
     }
 
-    // 1. Emergência
     const alerta = filtroEmergencia(mensagem);
     if (alerta) {
         return res.json({ resposta: alerta });
     }
 
-    // 2. IA
     const resposta = await chamarGemini(mensagem);
 
     res.json({ resposta });
 });
 
 
-// 🌐 TESTE
+// 🌐 Teste
 app.get("/", (req, res) => {
     res.send("Servidor rodando 🚀");
 });
 
 
-// 🚀 START
+// 🚀 Start
 app.listen(3000, () => {
     console.log("Servidor rodando em http://localhost:3000");
 });

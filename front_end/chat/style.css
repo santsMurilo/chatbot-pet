@@ -1,0 +1,151 @@
+/* =========================================
+   Estilos Globais e Reset
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Uma fonte mais moderna e limpa */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Fundo suave, levemente acinzentado */
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa a altura inteira da tela */
+    padding: 20px;
+}
+
+/* =========================================
+   Contêiner Principal do Chat
+   ========================================= */
+.chat-container {
+    width: 100%;
+    max-width: 400px; /* Largura máxima confortável */
+    height: 600px;    /* Altura fixa maior para a conversa */
+    background: white;
+    border-radius: 20px; /* Bordas bem arredondadas, amigáveis */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1); /* Sombra suave para flutuar */
+    display: flex;
+    flex-direction: column; /* Organiza os elementos verticalmente */
+    overflow: hidden; /* Garante que nada saia das bordas arredondadas */
+}
+
+/* Título da Janela */
+h2 {
+    text-align: center;
+    padding: 15px;
+    background-color: #007bff; /* Azul de confiança */
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* =========================================
+   Área da Conversa (Chat Box)
+   ========================================= */
+#chat-box {
+    flex: 1; /* Ocupa todo o espaço vertical restante */
+    overflow-y: auto; /* Scroll apenas se necessário */
+    padding: 20px;
+    background-color: #fafafa; /* Fundo ligeiramente diferente da área de entrada */
+    display: flex;
+    flex-direction: column; /* Mensagens uma abaixo da outra */
+    gap: 10px; /* Espaço entre as mensagens */
+}
+
+/* Personalização do Scrollbar (Para Chrome/Safari/Edge) */
+#chat-box::-webkit-scrollbar {
+    width: 6px;
+}
+#chat-box::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+
+/* =========================================
+   Estilização das Mensagens (Bolhas)
+   ========================================= */
+.mensagem {
+    max-width: 80%; /* A mensagem não ocupa a largura inteira */
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    position: relative;
+    word-wrap: break-word; /* Quebra palavras longas */
+}
+
+/* Estilo para as mensagens do USUÁRIO */
+.usuario {
+    align-self: flex-end; /* Alinha à direita */
+    background-color: #007bff; /* Mesmo azul do título */
+    color: white;
+    border-bottom-right-radius: 5px; /* Ponta da bolha */
+}
+
+/* Estilo para as mensagens do BOT */
+.bot {
+    align-self: flex-start; /* Alinha à esquerda */
+    background-color: #e9ecef; /* Cinza claro suave */
+    color: #333;
+    border-bottom-left-radius: 5px; /* Ponta da bolha */
+}
+
+/* Estilo especial para mensagens de erro */
+.bot.erro {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* =========================================
+   Área de Entrada (Input Area)
+   ========================================= */
+.input-area {
+    display: flex;
+    padding: 15px;
+    background-color: white;
+    border-top: 1px solid #eee;
+    gap: 10px; /* Espaço entre input e botão */
+}
+
+/* Campo de Texto */
+input[type="text"] {
+    flex: 1; /* Ocupa o espaço disponível */
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 25px; /* Campo oval */
+    font-size: 0.95rem;
+    outline: none; /* Remove a borda padrão de foco */
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+    border-color: #007bff; /* Borda azul ao clicar */
+}
+
+/* Botão Enviar */
+button {
+    padding: 0 20px;
+    background-color: #ff9f43; /* Laranja/Dourado energético */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Botão oval */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: #e68a30; /* Laranja mais escuro no hover */
+}
+
+button:active {
+    transform: scale(0.97); /* Efeito de clique */
+}

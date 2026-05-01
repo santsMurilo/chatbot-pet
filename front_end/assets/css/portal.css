@@ -1,0 +1,723 @@
+/* ==========================================================================
+   VARIÁVEIS E REGRAS GLOBAIS
+   ========================================================================== */
+:root {
+    --azul-sereno: #007bff;
+    --laranja-vibrante: #ff9f43;
+    --fundo-gelo: #f8f9fa;
+    --texto-escuro: #2d3436;
+    --texto-suave: #636e72;
+    --branco: #ffffff;
+    --transicao: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    --sombra-suave: 0 10px 30px rgba(0,0,0,0.03);
+    --sombra-forte: 0 20px 40px rgba(0,0,0,0.07);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--branco); /* Fundo branco para ar editorial */
+    color: var(--texto-escuro);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   NAVEGAÇÃO (HUMANIZADA)
+   ========================================================================== */
+nav {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1.2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+nav .logo {
+    color: var(--azul-sereno);
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+nav ul li a {
+    color: var(--texto-escuro);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transicao);
+}
+
+nav ul li a:hover {
+    color: var(--azul-sereno);
+}
+
+.btn-chat {
+    background-color: var(--texto-escuro);
+    color: var(--branco);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.btn-chat:hover {
+    background-color: var(--azul-sereno);
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   HERO EDITORIAL (Página Inicial e Internas)
+   ========================================================================== */
+.hero, .hero-minimal {
+    padding: 120px 5% 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero { text-align: center; }
+.hero-minimal { text-align: left; }
+
+.tag-topo {
+    background: #ffeaa7;
+    color: #d35400;
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 5vw, 3.8rem); /* Fonte fluida */
+    color: var(--texto-escuro);
+    line-height: 1.1;
+    margin: 25px 0;
+    letter-spacing: -1px;
+}
+
+.hero p, .hero-minimal p {
+    font-size: 1.25rem;
+    color: var(--texto-suave);
+    max-width: 700px;
+    margin-bottom: 30px;
+}
+
+/* ==========================================================================
+   CONTEÚDO E SEÇÕES
+   ========================================================================== */
+.container-humanizado {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 5% 100px;
+}
+
+.secao-texto {
+    margin-bottom: 60px;
+}
+
+.bloco-info h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: var(--azul-sereno);
+}
+
+.caixa-destaque {
+    background: var(--fundo-gelo);
+    padding: 35px;
+    border-radius: 0 30px 30px 30px;
+    border-left: 6px solid var(--laranja-vibrante);
+    margin: 40px 0;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* Grid de Cards Estilo Revista */
+.grid-moderno {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.card-artigo {
+    background: var(--branco);
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: var(--transicao);
+    box-shadow: var(--sombra-suave);
+}
+
+.card-artigo:hover {
+    transform: translateY(-12px);
+    box-shadow: var(--sombra-forte);
+}
+
+.card-header {
+    padding: 12px 25px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--branco);
+    letter-spacing: 1px;
+}
+
+.card-header.vax { background: var(--azul-sereno); }
+.card-header.higiene { background: var(--laranja-vibrante); }
+
+.card-body {
+    padding: 30px;
+}
+
+.card-body h4 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   AVISOS E ALERTAS
+   ========================================================================== */
+.aviso-importante {
+    background: #1e272e;
+    color: var(--branco);
+    padding: 50px;
+    border-radius: 30px;
+    margin: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.aviso-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.aviso-icone {
+    font-size: 3.5rem;
+    opacity: 0.9;
+}
+
+.aviso-texto h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: var(--laranja-vibrante);
+}
+
+/* ==========================================================================
+   FOOTER E BOTÕES
+   ========================================================================== */
+.footer-chat {
+    background: #f1f2f6;
+    padding: 100px 5%;
+    text-align: center;
+}
+
+.footer-content h3 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.btn-humano {
+    background-color: var(--laranja-vibrante);
+    color: var(--branco);
+    border: none;
+    padding: 20px 45px;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 15px 30px rgba(255, 159, 67, 0.25);
+    transition: var(--transicao);
+    margin-top: 30px;
+}
+
+.btn-humano:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(255, 159, 67, 0.3);
+}
+
+/* ==========================================================================
+   SEÇÕES INTERCALADAS (Index/Principal)
+   ========================================================================== */
+.info-section {
+    padding: 80px 5%;
+}
+
+.info-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.info-container.reverse { flex-direction: row-reverse; }
+
+.info-image img {
+    width: 100%;
+    border-radius: 40px;
+    box-shadow: var(--sombra-forte);
+    filter: grayscale(20%); /* Toque humano/vintage */
+    transition: var(--transicao);
+}
+
+.info-image img:hover {
+    filter: grayscale(0%);
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 850px) {
+    .info-container, .info-container.reverse {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .aviso-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    h1 { font-size: 2.8rem; }
+    
+    nav ul { display: none; } /* Ideal criar um menu mobile depois */
+}
+
+/* ==========================================================================
+   ESTILOS ADICIONAIS (MENTAL, TABELAS E PS)
+   ========================================================================== */
+
+/* Grid de Enriquecimento Ambiental */
+.enriquecimento-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.item-mental {
+    background: #fdfdfd;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    font-size: 0.95rem;
+}
+
+/* Tabela Editorial */
+.secao-exames {
+    margin: 60px 0;
+}
+
+.secao-exames h3 {
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.tabela-container {
+    overflow-x: auto; /* Garante que funcione no celular */
+}
+
+.tabela-humanizada {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--sombra-suave);
+}
+
+.tabela-humanizada th {
+    background-color: var(--azul-sereno);
+    color: white;
+    text-align: left;
+    padding: 18px;
+    font-size: 0.9rem;
+}
+
+.tabela-humanizada td {
+    padding: 18px;
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 0.95rem;
+}
+
+.tabela-humanizada tr:last-child td {
+    border-bottom: none;
+}
+
+/* Card de Primeiros Socorros */
+.primeiros-socorros {
+    margin-top: 40px;
+}
+
+.ps-card {
+    background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px dashed #feb2b2;
+}
+
+.ps-card h3 {
+    color: #c53030;
+    margin-bottom: 10px;
+}
+
+/* Responsividade para a Tabela */
+@media (max-width: 600px) {
+    .tabela-humanizada th, .tabela-humanizada td {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+}
+
+/* ==========================================================================
+   ESTILOS PÁGINA ALIMENTAÇÃO
+   ========================================================================== */
+
+.guia-alimentos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 50px 0;
+}
+
+.alimentos-box {
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--sombra-suave);
+}
+
+.alimentos-box.permitidos {
+    background-color: #f0fff4; /* Verde suave */
+    border: 1px solid #c6f6d5;
+}
+
+.alimentos-box.proibidos {
+    background-color: #fff5f5; /* Vermelho suave */
+    border: 1px solid #fed7d7;
+}
+
+.alimentos-box h3 {
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.alimentos-box ul {
+    list-style: none;
+}
+
+.alimentos-box li {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+/* Card de Receita */
+.receita-pet {
+    background: #ffffff;
+    border: 2px solid var(--fundo-gelo);
+    border-radius: 24px;
+    padding: 40px;
+    margin: 60px 0;
+    box-shadow: var(--sombra-forte);
+}
+
+.receita-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.receita-header span {
+    background: var(--azul-sereno);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.receita-corpo {
+    font-size: 1.1rem;
+    color: var(--texto-suave);
+    line-height: 1.8;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .receita-pet { padding: 25px; }
+}
+
+/* ==========================================================================
+   ESTILOS AVANÇADOS DE ALIMENTAÇÃO
+   ========================================================================== */
+
+/* Grid de Rótulos */
+.rotulo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.dica-rotulo {
+    background: var(--fundo-gelo);
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Régua de Transição Alimentar */
+.transicao-alimentar {
+    background: #fff;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: var(--sombra-suave);
+    margin: 60px 0;
+    border: 1px solid #eee;
+}
+
+.transicao-alimentar h3 {
+    margin-bottom: 15px;
+    color: var(--azul-sereno);
+}
+
+.passos-transicao {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.passo {
+    flex: 1;
+    min-width: 140px;
+    background: var(--fundo-gelo);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.passo.destaque {
+    background: var(--laranja-vibrante);
+    color: white;
+}
+
+.passo .dia {
+    font-weight: 800;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.passo .proporcao {
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+/* Petiscos Funcionais */
+.funcional-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.funcional-item {
+    background: #fdfdfd;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--azul-sereno);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .passos-transicao {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ==========================================================================
+   ESTILOS PÁGINA DICAS (ADESTRAMENTO)
+   ========================================================================== */
+
+.guia-comandos {
+    margin: 60px 0;
+    background: var(--fundo-gelo);
+    padding: 40px;
+    border-radius: 30px;
+}
+
+.guia-comandos h3 {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.passo-a-passo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.fase {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: var(--sombra-suave);
+    text-align: center;
+}
+
+.fase .numero {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: rgba(0, 123, 255, 0.1);
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.fase p {
+    position: relative;
+    z-index: 1;
+    font-size: 0.95rem;
+    margin-top: 20px;
+}
+
+/* Ajuste fino para os cards de comportamento */
+.card-header.vax { background: #6c5ce7; } /* Um roxo para psicologia */
+.card-header.higiene { background: #00b894; } /* Um verde para calma */
+
+@media (max-width: 600px) {
+    .fase { padding-top: 40px; }
+}
+
+/* ==========================================================================
+   ESTILOS PÁGINA BLOG
+   ========================================================================== */
+
+/* Post de Destaque */
+.post-destaque {
+    display: flex;
+    background: var(--branco);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: var(--sombra-forte);
+    margin-bottom: 80px;
+    cursor: pointer;
+    transition: var(--transicao);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.post-destaque:hover {
+    transform: scale(1.01);
+}
+
+.destaque-imagem {
+    flex: 1.2;
+}
+
+.destaque-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.destaque-info {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.destaque-info .categoria {
+    color: var(--azul-sereno);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+}
+
+.destaque-info h2 {
+    font-size: 2.5rem;
+    margin: 20px 0;
+    line-height: 1.2;
+}
+
+/* Grid de Artigos Menores */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.post-card {
+    background: transparent;
+    transition: var(--transicao);
+}
+
+.post-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.post-card .data {
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+}
+
+.post-card h4 {
+    font-size: 1.4rem;
+    margin: 10px 0;
+    transition: 0.3s;
+}
+
+.post-card:hover h4 {
+    color: var(--azul-sereno);
+}
+
+/* Responsividade Blog */
+@media (max-width: 900px) {
+    .post-destaque {
+        flex-direction: column;
+    }
+    
+    .destaque-info {
+        padding: 30px;
+    }
+
+    .destaque-info h2 {
+        font-size: 1.8rem;
+    }
+}

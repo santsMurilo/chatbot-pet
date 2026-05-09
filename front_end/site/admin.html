@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | PetTalk</title>
+    <link rel="stylesheet" href="../assets/css/portal.css">
+    <style>
+        /* Estilo rápido para o formulário não ficar colado */
+        .admin-form {
+            max-width: 800px;
+            margin: 50px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .admin-form input, .admin-form textarea {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: inherit;
+        }
+        .admin-form textarea { height: 200px; }
+    </style>
+</head>
+<body>
+
+    <main class="container-humanizado">
+        <h1>Nova Publicação 📝</h1>
+        <p>Preencha os campos abaixo para enviar um novo artigo para o blog.</p>
+
+        <form id="form-post" class="admin-form">
+            <input type="text" id="titulo" placeholder="Título do Artigo" required>
+            <input type="text" id="resumo" placeholder="Resumo curto (aparece no card)" required>
+            <input type="text" id="categoria" placeholder="Categoria (ex: Saúde, Curiosidades)">
+            <input type="text" id="imagem_url" placeholder="URL da Imagem (Unsplash ou similar)">
+            <textarea id="conteudo" placeholder="Conteúdo completo do artigo (use parágrafos)" required></textarea>
+            
+            <button type="submit" class="btn-footer" id="btn-publicar">Publicar no Blog</button>
+        </form>
+        
+        <a href="blog.html" style="display: block; margin-top: 20px; text-align: center;">← Voltar para o Blog</a>
+    </main>
+
+    <!-- Chamando o script de lógica -->
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>

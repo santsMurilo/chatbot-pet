@@ -16,7 +16,7 @@ console.log("API KEY carregada:", !!GEMINI_API_KEY);
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 
-// 🎯 Classificação
+// Classificação
 function classificar(mensagem) {
     mensagem = mensagem.toLowerCase();
 
@@ -28,7 +28,7 @@ function classificar(mensagem) {
 }
 
 
-// 🔥 Prompt inteligente
+// Prompt inteligente
 function montarPrompt(mensagem) {
     const tipo = classificar(mensagem);
 
@@ -61,7 +61,7 @@ ${mensagem}
 }
 
 
-// 🚨 Emergência
+// Emergência
 function filtroEmergencia(mensagem) {
     mensagem = mensagem.toLowerCase();
 
@@ -77,7 +77,7 @@ function filtroEmergencia(mensagem) {
 }
 
 
-// 🤖 Gemini
+// Gemini
 async function chamarGemini(mensagem) {
     try {
         const response = await ai.models.generateContent({
@@ -99,7 +99,7 @@ async function chamarGemini(mensagem) {
 }
 
 
-// 🚀 Rota principal
+//  Rota principal
 app.post("/chat", async (req, res) => {
     const { mensagem } = req.body;
 
@@ -118,13 +118,13 @@ app.post("/chat", async (req, res) => {
 });
 
 
-// 🌐 Teste
+// Teste
 app.get("/", (req, res) => {
-    res.send("Servidor rodando 🚀");
+    res.send("Servidor rodando");
 });
 
 
-// 🚀 Start
+// Start
 app.listen(3000, () => {
     console.log("Servidor rodando em http://localhost:3000");
 });

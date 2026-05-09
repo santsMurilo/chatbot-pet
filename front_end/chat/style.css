@@ -1,6 +1,4 @@
-/* =========================================
-   Estilos Globais e Reset
-   ========================================= */
+/* Estilos Globais e Reset */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -19,15 +17,13 @@ body {
     padding: 20px;
 }
 
-/* =========================================
-   Contêiner Principal do Chat
-   ========================================= */
+/* Contêiner Principal do Chat */
 .chat-container {
     width: 100%;
     max-width: 400px; /* Largura máxima confortável */
     height: 600px;    /* Altura fixa maior para a conversa */
     background: white;
-    border-radius: 20px; /* Bordas bem arredondadas, amigáveis */
+    border-radius: 5px; /* Bordas bem arredondadas, amigáveis */
     box-shadow: 0 8px 30px rgba(0,0,0,0.1); /* Sombra suave para flutuar */
     display: flex;
     flex-direction: column; /* Organiza os elementos verticalmente */
@@ -38,17 +34,15 @@ body {
 h2 {
     text-align: center;
     padding: 15px;
-    background-color: #007bff; /* Azul de confiança */
-    color: white;
+    background-color: #c9c9c9; /* Azul de confiança */
+    color: rgb(0, 0, 0);
     font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: 0.5px;
     border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* =========================================
-   Área da Conversa (Chat Box)
-   ========================================= */
+/* Área da Conversa */
 #chat-box {
     flex: 1; /* Ocupa todo o espaço vertical restante */
     overflow-y: auto; /* Scroll apenas se necessário */
@@ -68,9 +62,7 @@ h2 {
     border-radius: 3px;
 }
 
-/* =========================================
-   Estilização das Mensagens (Bolhas)
-   ========================================= */
+/* Estilização das Mensagens */
 .mensagem {
     max-width: 80%; /* A mensagem não ocupa a largura inteira */
     padding: 10px 15px;
@@ -104,9 +96,7 @@ h2 {
     border: 1px solid #f5c6cb;
 }
 
-/* =========================================
-   Área de Entrada (Input Area)
-   ========================================= */
+/* Área de Entrada */
 .input-area {
     display: flex;
     padding: 15px;
@@ -133,7 +123,7 @@ input[type="text"]:focus {
 /* Botão Enviar */
 button {
     padding: 0 20px;
-    background-color: #ff9f43; /* Laranja/Dourado energético */
+    background-color: #43a90c; /* Laranja/Dourado energético */
     color: white;
     border: none;
     border-radius: 25px; /* Botão oval */

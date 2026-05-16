@@ -1,130 +1,158 @@
-require("dotenv").config();
-
 const express = require("express");
-const cors = require("cors");
-const { GoogleGenAI } = require("@google/genai");
+const fs = require("fs");
+const bcrypt = require("bcrypt");
+const session = require("express-session");
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+app.use(express.static(__dirname));
 
-console.log("API KEY carregada:", !!GEMINI_API_KEY);
+app.use(session({
+    secret:"ringneck",
+    resave:false,
+    saveUninitialized:false
+}));
 
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+/* USERS */
 
+function lerUsuarios(){
 
-// 🎯 Classificação
-function classificar(mensagem) {
-    mensagem = mensagem.toLowerCase();
+    if(!fs.existsSync("users.json")){
 
-    if (mensagem.includes("pode comer")) return "alimentacao";
-    if (mensagem.includes("vomitou") || mensagem.includes("doente")) return "saude";
-    if (mensagem.includes("triste") || mensagem.includes("comportamento")) return "comportamento";
-
-    return "geral";
-}
-
-
-// 🔥 Prompt inteligente
-function montarPrompt(mensagem) {
-    const tipo = classificar(mensagem);
-
-    return `
-Você é um assistente especializado em cuidados com pets, que te ajuda com perguntas sobre alimentação, saúde e comportamento de animais de estimação. você é direto, claro e sempre alerta sobre situações de saúde. Se a pergunta indicar emergência, responda com um alerta ⚠️ e recomende procurar um veterinário.
-
-Tipo da pergunta: ${tipo}
-
-REGRAS:
-- Não seja genérico
-- Máximo de 5 linhas
-- Seja direto
-- Use linguagem simples
-- Se for saúde, alerte com ⚠️
-
-FORMATO:
-- Resposta direta
-- Explicação curta
-- Dica prática
-- Para separar a resposta da explicação, pule a linha
-
-OBSERVAÇÃO:
-- Não escreva "** Resposta** ou **Explicação**", apenas entregue a resposta e a explicação de forma fluida.
-
-
-
-Pergunta:
-${mensagem}
-`;
-}
-
-
-// 🚨 Emergência
-function filtroEmergencia(mensagem) {
-    mensagem = mensagem.toLowerCase();
-
-    if (
-        mensagem.includes("convuls") ||
-        mensagem.includes("morrendo") ||
-        mensagem.includes("não respira")
-    ) {
-        return "🚨 Situação grave! Procure um veterinário imediatamente.";
+        fs.writeFileSync(
+            "users.json",
+            "[]"
+        );
     }
 
-    return null;
+    return JSON.parse(
+        fs.readFileSync("users.json")
+    );
 }
 
+function salvarUsuarios(users){
 
-// 🤖 Gemini
-async function chamarGemini(mensagem) {
-    try {
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: montarPrompt(mensagem),
+    fs.writeFileSync(
+        "users.json",
+        JSON.stringify(users,null,2)
+    );
+}
+
+/* REGISTER */
+
+app.post("/register", async(req,res)=>{
+
+    const {usuario,senha} = req.body;
+
+    const users = lerUsuarios();
+
+    const existe = users.find(
+        u => u.usuario === usuario
+    );
+
+    if(existe){
+
+        return res.json({
+            erro:"Usuário já existe"
         });
-
-        if (!response || !response.text) {
-            console.log("Resposta vazia:", response);
-            return "⚠️ Não consegui gerar resposta.";
-        }
-
-        return response.text;
-
-    } catch (error) {
-        console.log("ERRO GEMINI:", error.message);
-        return "⚠️ Erro ao acessar a IA.";
-    }
-}
-
-
-// 🚀 Rota principal
-app.post("/chat", async (req, res) => {
-    const { mensagem } = req.body;
-
-    if (!mensagem) {
-        return res.status(400).json({ resposta: "Mensagem inválida." });
     }
 
-    const alerta = filtroEmergencia(mensagem);
-    if (alerta) {
-        return res.json({ resposta: alerta });
-    }
+    const hash = await bcrypt.hash(senha,10);
 
-    const resposta = await chamarGemini(mensagem);
+    users.push({
+        usuario,
+        senha:hash
+    });
 
-    res.json({ resposta });
+    salvarUsuarios(users);
+
+    req.session.user = usuario;
+
+    res.json({
+        sucesso:true
+    });
 });
 
+/* LOGIN */
 
-// 🌐 Teste
-app.get("/", (req, res) => {
-    res.send("Servidor rodando 🚀");
+app.post("/login", async(req,res)=>{
+
+    const {usuario,senha} = req.body;
+
+    const users = lerUsuarios();
+
+    const user = users.find(
+        u => u.usuario === usuario
+    );
+
+    if(!user){
+
+        return res.json({
+            erro:"Usuário não encontrado"
+        });
+    }
+
+    const ok = await bcrypt.compare(
+        senha,
+        user.senha
+    );
+
+    if(!ok){
+
+        return res.json({
+            erro:"Senha incorreta"
+        });
+    }
+
+    req.session.user = usuario;
+
+    res.json({
+        sucesso:true
+    });
 });
 
+/* ME */
 
-// 🚀 Start
-app.listen(3000, () => {
-    console.log("Servidor rodando em http://localhost:3000");
+app.get("/me",(req,res)=>{
+
+    if(!req.session.user){
+
+        return res.json({
+            logado:false
+        });
+    }
+
+    res.json({
+        logado:true,
+        usuario:req.session.user
+    });
+});
+
+/* LOGOUT */
+
+app.get("/logout",(req,res)=>{
+
+    req.session.destroy();
+
+    res.json({
+        sucesso:true
+    });
+});
+
+/* CHAT */
+
+app.post("/chat",(req,res)=>{
+
+    const {mensagem} = req.body;
+
+    res.json({
+        resposta:`🦜 Ring Neck respondeu: ${mensagem}`
+    });
+});
+
+app.listen(3000,()=>{
+
+    console.log("Servidor rodando");
 });

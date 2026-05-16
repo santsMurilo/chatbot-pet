@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Login</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#dff7e8;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:100vh;
+}
+
+.box{
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    width:300px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:15px;
+}
+
+input{
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+}
+
+button{
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#22c55e;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>🦜 Ring Neck Chat</h2>
+
+<input
+type="text"
+id="usuario"
+placeholder="Usuário"
+>
+
+<input
+type="password"
+id="senha"
+placeholder="Senha"
+>
+
+<button onclick="login()">
+Entrar
+</button>
+
+<button onclick="register()">
+Criar conta
+</button>
+
+</div>
+
+<script>
+
+async function login(){
+
+    const usuario =
+    document.getElementById("usuario").value;
+
+    const senha =
+    document.getElementById("senha").value;
+
+    const req = await fetch("/login",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            usuario,
+            senha
+        })
+    });
+
+    const res = await req.json();
+
+    if(res.erro){
+
+        alert(res.erro);
+
+        return;
+    }
+
+    location.href = "/";
+}
+
+async function register(){
+
+    const usuario =
+    document.getElementById("usuario").value;
+
+    const senha =
+    document.getElementById("senha").value;
+
+    const req = await fetch("/register",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            usuario,
+            senha
+        })
+    });
+
+    const res = await req.json();
+
+    if(res.erro){
+
+        alert(res.erro);
+
+        return;
+    }
+
+    alert("Conta criada!");
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,23 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <title>Chat Pet 🐾</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ring Neck Chat</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="chat-container">
-    <h2>🐾 Tico- Orientador de donos</h2>
+    <!-- INTRO -->
 
-    <div id="chat-box"></div>
+    <div id="intro">
 
-    <div class="input-area">
-        <input type="text" id="mensagem" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') enviarMensagem()">
-        <button onclick="enviarMensagem()">Enviar</button>
+        <div class="intro-content">
+
+            <img src="ringneck.png" id="bird">
+
+            <h1 id="titulo-intro">
+                Ring Neck Chat
+            </h1>
+
+        </div>
+
     </div>
-</div>
 
-<script src="script.js"></script>
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            <img src="ringneck.png" class="logo-img">
+
+            <span>Ring Neck Chat</span>
+
+        </div>
+
+        <button class="new-chat">
+            + Nova conversa
+        </button>
+
+        <div class="history">
+
+            <p>Conversas</p>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOPO -->
+
+        <div class="top-bar">
+
+            <h2>
+                <span class="parrot">🦜</span>
+                Ring Neck - Assistente Pet
+            </h2>
+
+            <div class="user-area">
+
+                <button onclick="abrirModal()">
+                    Entrar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- CHAT -->
+
+        <div id="chat-box">
+
+            <div class="message bot">
+
+                Olá!
+                <span class="parrot">🦜</span>
+                Como posso ajudar você hoje?
+
+            </div>
+
+        </div>
+
+        <!-- INPUT -->
+
+        <div class="input-container">
+
+            <div class="input-box">
+
+                <input
+                    type="text"
+                    id="mensagem"
+                    placeholder="Pergunte algo sobre seu pet..."
+                    onkeypress="if(event.key==='Enter') enviarMensagem()"
+                >
+
+                <button onclick="enviarMensagem()">
+                    ➤
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL -->
+
+    <div id="modal">
+
+        <div class="modal-box">
+
+            <h2>🦜 Ring Neck Chat</h2>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Usuário"
+            >
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Senha"
+            >
+
+            <button onclick="login()">
+                Entrar
+            </button>
+
+            <button onclick="register()">
+                Criar conta
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
+
 </html>

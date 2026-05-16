@@ -31,11 +31,8 @@ botaoNova.addEventListener("click", () => {
 function criarNovaConversa(){
 
     const nova = {
-
         id: Date.now(),
-
         titulo: "Nova conversa",
-
         mensagens: [
             {
                 tipo:"bot",
@@ -71,7 +68,7 @@ async function enviarMensagem(){
 
     try{
 
-        const resposta = await fetch("/chat",{
+        const resposta = await fetch("http://localhost:3000/chat",{
 
             method:"POST",
 
@@ -82,16 +79,14 @@ async function enviarMensagem(){
             body:JSON.stringify({
                 mensagem:texto
             })
+
         });
 
         const data = await resposta.json();
 
         removerUltimaMensagem();
 
-        adicionarMensagem(
-            "bot",
-            data.resposta
-        );
+        adicionarMensagem("bot", data.resposta);
 
     }catch{
 
@@ -104,7 +99,7 @@ async function enviarMensagem(){
     }
 }
 
-/* ADICIONAR */
+/* ADICIONAR MENSAGEM */
 
 function adicionarMensagem(tipo, texto){
 
@@ -128,42 +123,37 @@ function adicionarMensagem(tipo, texto){
         && tipo === "user"
     ){
 
-        conversaAtual.titulo =
-        texto.substring(0,20);
+        conversaAtual.titulo = texto.substring(0, 20);
 
         renderHistorico();
     }
 
     salvar();
 
-    chatBox.scrollTop =
-    chatBox.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 /* REMOVER */
 
 function removerUltimaMensagem(){
 
-    chatBox.removeChild(
-        chatBox.lastChild
-    );
+    chatBox.removeChild(chatBox.lastChild);
 
     conversaAtual.mensagens.pop();
 
     salvar();
 }
 
-/* ABRIR */
+/* ABRIR CONVERSA */
 
 function abrirConversa(id){
 
-    conversaAtual =
-    conversas.find(c => c.id === id);
+    conversaAtual = conversas.find(c => c.id === id);
 
     renderMensagens();
 }
 
-/* RENDER */
+/* RENDER MENSAGENS */
 
 function renderMensagens(){
 
@@ -171,42 +161,37 @@ function renderMensagens(){
 
     conversaAtual.mensagens.forEach(msg => {
 
-        const div =
-        document.createElement("div");
+        const div = document.createElement("div");
 
-        div.className =
-        `message ${msg.tipo}`;
+        div.className = `message ${msg.tipo}`;
 
         div.innerHTML = msg.texto;
 
         chatBox.appendChild(div);
+
     });
 
-    chatBox.scrollTop =
-    chatBox.scrollHeight;
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-/* HISTORICO */
+/* RENDER HISTORICO */
 
 function renderHistorico(){
 
-    historico.innerHTML =
-    "<p>Conversas</p>";
+    historico.innerHTML = "<p>Conversas</p>";
 
     conversas.forEach(conversa => {
 
-        const item =
-        document.createElement("div");
+        const item = document.createElement("div");
 
         item.className = "chat-item";
 
-        item.innerText =
-        conversa.titulo;
+        item.innerText = conversa.titulo;
 
-        item.onclick = () =>
-        abrirConversa(conversa.id);
+        item.onclick = () => abrirConversa(conversa.id);
 
         historico.appendChild(item);
+
     });
 }
 
@@ -218,118 +203,4 @@ function salvar(){
         "conversas",
         JSON.stringify(conversas)
     );
-}
-
-/* ABRIR MODAL */
-
-function abrirModal(){
-
-    document.getElementById("modal")
-    .style.display = "flex";
-}
-
-/* FECHAR MODAL */
-
-window.onclick = function(event){
-
-    const modal =
-    document.getElementById("modal");
-
-    if(event.target === modal){
-
-        modal.style.display = "none";
-    }
-}
-
-/* REGISTER */
-
-async function register(){
-
-    const usuario =
-    document.getElementById("usuario").value;
-
-    const senha =
-    document.getElementById("senha").value;
-
-    if(!usuario || !senha){
-
-        alert("Preencha tudo");
-
-        return;
-    }
-
-    const req = await fetch("/register",{
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-            usuario,
-            senha
-        })
-    });
-
-    const res = await req.json();
-
-    if(res.erro){
-
-        alert(res.erro);
-
-        return;
-    }
-
-    alert("Conta criada!");
-
-    location.reload();
-}
-
-/* LOGIN */
-
-async function login(){
-
-    const usuario =
-    document.getElementById("usuario").value;
-
-    const senha =
-    document.getElementById("senha").value;
-
-    if(!usuario || !senha){
-
-        alert("Preencha tudo");
-
-        return;
-    }
-
-    const req = await fetch("/login",{
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-            usuario,
-            senha
-        })
-    });
-
-    const res = await req.json();
-
-    if(res.erro){
-
-        alert(res.erro);
-
-        return;
-    }
-
-    alert("Login realizado!");
-
-    document.getElementById("modal")
-    .style.display = "none";
-
-    location.reload();
 }
